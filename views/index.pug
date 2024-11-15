@@ -1,0 +1,49 @@
+doctype html
+html
+  include /partials/header.pug
+  body
+    include /partials/navbar.pug
+    .contentIndex
+      .container.mt-5
+        .row.text-center
+          h1.display-4.mb-4 Bienvenido a la Agenda Médica
+          p.lead Aquí puedes gestionar tus turnos, ver los profesionales segun su especialidad y más.
+          if !userLoggedIn
+            p.lead Ingresa para poder acceder a las funciones de la pagina...
+
+        //- Sección de Funcionalidades principales
+        .row.mt-4
+          .col-md-4.mb-3
+            .card.h-100.shadow-sm.border-0( style="transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'")
+              .card-body.text-center
+                i.fa-solid.fa-calendar-check.fa-3x.text-primary.mb-3
+                h5.card-title Solicitar Turno
+                p.card-text Accede a tu calendario personal y agenda tus próximas citas médicas de manera fácil y rápida.
+                if rolUsuario == "paciente"
+                  a.btn.btn-primary.mt-3(href=`/pacientes/${user.documento}`) Ver Turnos
+                else 
+                  a.btn.btn-primary.mt-3(href=`/pacientes`) Ver Turnos
+
+          .col-md-4.mb-3
+            .card.h-100.shadow-sm.border-0(style="transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'")
+              .card-body.text-center
+                i.fa-solid.fa-user-edit.fa-3x.text-info.mb-3
+                h5.card-title Actualizar Información Personal
+                p.card-text Mantén tu perfil siempre actualizado para recibir la mejor atención personalizada.
+                if rolUsuario == "paciente"
+                  a.btn.btn-info.mt-3(href=`/pacientes/${user.documento}`) Actualizar Información
+                else 
+                  a.btn.btn-info.mt-3(href=`/pacientes`) Actualizar Información
+
+          .col-md-4.mb-3
+            .card.h-100.shadow-sm.border-0(style="transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'")
+              .card-body.text-center
+                i.fa-solid.fa-comments.fa-3x.text-success.mb-3
+                h5.card-title Contactar a un Profesional
+                p.card-text ¿Necesitas ayuda? Comunícate con nuestro equipo médico para resolver tus dudas.
+                a.btn.btn-success.mt-3(href="/contacto") Contacto
+
+        //- margen para separar las tarjetas del footer)
+        .mt-5
+
+    include /partials/footer.pug

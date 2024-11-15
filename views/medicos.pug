@@ -1,0 +1,146 @@
+doctype html
+html
+  include /partials/header.pug
+  body
+    include /partials/navbar.pug
+
+    .content
+      .container.mt-5
+        .row.text-center
+          h1.display-4.mb-4 Gestión de Profesionales
+          p.lead Aquí puedes ver, agregar, modificar o eliminar profesionales y especialidades.
+
+        //- Botones de control
+        .row.mb-4
+          .col-md-3.text-center
+            button.btn.btn-primary.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#verProfesionales", aria-expanded="false", aria-controls="verProfesionales", id="btnVerProfesionales") Ver Profesionales
+          .col-md-3.text-center
+            button.btn.btn-success.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#agregarProfesional", aria-expanded="false", aria-controls="agregarProfesional") Agregar Profesional
+          .col-md-3.text-center
+            button.btn.btn-info.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#agregarEspecialidad", aria-expanded="false", aria-controls="agregarEspecialidad") Agregar Especialidad
+          .col-md-3.text-center
+            button.btn.btn-warning.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#asignarEspecialidad", aria-expanded="false", aria-controls="asignarEspecialidad") Asignar Especialidad
+
+        //- Sección Ver Todos los Profesionales (Colapsable)
+        .collapse.mb-4#verProfesionales
+          .card.card-body
+            h3.text-center Ver Profesionales
+            p.text-muted.text-center Filtra y ordena los profesionales por su especialidad o por médico.
+            
+            //- Filtro por especialidad o profesional
+            .row.mb-3
+              .col-md-4.offset-md-4
+                select.form-select(id="filtroEspecialidad")
+                  option(value="") -- Filtrar por Especialidad --
+                  if especialidades && especialidades.length > 0
+                    each especialidad in especialidades
+                      option(value=especialidad.id_especialidad) #{especialidad.nombre_especialidad}
+                  else
+                    option No hay especialidades disponibles
+            .row.mb-3
+              .col-md-4.offset-md-4
+                select.form-select(id="filtroMedico")
+                  option(value="") -- Filtrar por Médico --
+                  if profesionales && profesionales.length > 0
+                    each profesional in profesionales
+                      option(value=profesional.id_profesional) #{profesional.nombre_completo}
+
+            //- Tabla de profesionales
+            table.table.table-bordered.table-striped.mt-3
+              thead
+                tr
+                  th Médico
+                  th Especialidad
+                  th DNI
+                  th Teléfono
+                  th Email
+                  th Dirección
+                  th Acciones
+              tbody#tablaProfesionales
+                //- Se insertarán filas dinámicamente mediante JavaScript
+
+        //- Sección Modificar Profesional (inicialmente oculta)
+        .collapse.mb-4#formularioModificar(style="display: none;")
+          .card.card-body
+            h3.text-center Modificar Profesional
+            p.text-muted.text-center Actualiza la información del profesional seleccionado.
+            
+            form#formModificarProfesional
+              .mb-3
+                label.form-label(for="nombreCompleto") Nombre Completo
+                input.form-control(type="text", id="nombreCompleto")
+              .mb-3
+                label.form-label(for="dni") DNI
+                input.form-control(type="text", id="dni")
+              .mb-3
+                label.form-label(for="telefono") Teléfono
+                input.form-control(type="text", id="telefono")
+              .mb-3
+                label.form-label(for="email") Email
+                input.form-control(type="text", id="email")
+              .mb-3
+                label.form-label(for="direccion") Dirección
+                input.form-control(type="text", id="direccion")
+
+              button.btn.btn-primary#guardarCambios(type="submit") Guardar cambios
+
+        //- Sección Agregar Profesional (Colapsable)
+        .collapse.mb-4#agregarProfesional
+          .card.card-body
+            h3.text-center Agregar Profesional
+            form#formAgregarProfesional
+              .mb-3
+                label(for="nombre_completo") Nombre Completo
+                input.form-control#nombre_completo(type="text" name="nombre_completo" required placeholder="Ingrese el nombre completo del profesional")
+              .mb-3
+                label(for="dni2") DNI
+                input.form-control#dni2(type="text" name="dni2" required placeholder="Ingrese el DNI")
+              .mb-3
+                label(for="telefono2") Teléfono
+                input.form-control#telefono2(type="text" name="telefono2" required placeholder="Ingrese el teléfono")
+              .mb-3
+                label(for="email2") Correo Electrónico
+                input.form-control#email2(type="email" name="email2" required placeholder="Ingrese el correo electrónico")
+              .mb-3
+                label(for="direccion2") Dirección
+                input.form-control#direccion2(type="text" name="direccion2" required placeholder="Ingrese la dirección")
+              button.btn.btn-success(type="submit") Agregar Profesional
+
+        //- Sección Agregar Especialidad (Colapsable)
+        .collapse.mb-4#agregarEspecialidad
+          .card.card-body
+            h3.text-center Agregar Especialidad
+            form#formAgregarEspecialidad
+              .mb-3
+                label(for="nombreEspecialidad") Nombre Especialidad
+                input.form-control#nombreEspecialidad(type="text" name="nombreEspecialidad" required placeholder="Ingrese el nombre de la especialidad")
+              button.btn.btn-success(type="submit") Agregar Especialidad
+
+        //- Sección Asignar Especialidad a Profesional (Colapsable)
+        .collapse.mb-4#asignarEspecialidad
+          .card.card-body
+            h3.text-center Asignar Especialidad a Profesional
+            form#formAsignarEspecialidad
+              .mb-3
+                label(for="medicoAsignar") Médico
+                select.form-select#medicoAsignar(name="medicoAsignar" required)
+                  if profesionales && profesionales.length > 0
+                    each profesional in profesionales
+                      option(value=profesional.id_profesional) #{profesional.nombre_completo}
+                  else
+                    option(disabled) No hay médicos disponibles
+              .mb-3
+                label(for="especialidadAsignar") Especialidad
+                select.form-select#especialidadAsignar(name="especialidadAsignar" required)
+                  if especialidades && especialidades.length > 0
+                    each especialidad in especialidades
+                      option(value=especialidad.id_especialidad) #{especialidad.nombre_especialidad}
+                  else
+                    option(disabled) No hay especialidades disponibles
+              button.btn.btn-success(type="submit") Asignar Especialidad
+
+
+    include /partials/footer.pug
+
+    script(src="/js/medicos.js")
+

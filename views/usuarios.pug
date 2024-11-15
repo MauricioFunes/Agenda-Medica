@@ -1,0 +1,86 @@
+doctype html
+html
+  include /partials/header.pug
+  body
+    include /partials/navbar.pug
+
+    .content
+      .container.mt-5
+        .row.text-center
+          h1.display-4.mb-4 Gestión de Usuarios
+          p.lead Aquí puedes ver, agregar, modificar o eliminar usuarios.
+
+        //- Botones de control
+        .row.mb-4
+          .col-md-4.text-center
+            button.btn.btn-primary.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#verUsuarios", aria-expanded="false", aria-controls="verUsuarios", id="btnVerUsuarios") Ver Todos los Usuarios
+          .col-md-4.text-center
+            button.btn.btn-success.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#agregarUsuario", aria-expanded="false", aria-controls="agregarUsuario") Agregar Usuario
+          .col-md-4.text-center
+            button.btn.btn-warning.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#modificarEliminarUsuario", aria-expanded="false", aria-controls="modificarEliminarUsuario", disabled=true, id="btnModificarEliminar") Modificar o Eliminar Usuario
+
+        //- Sección Ver Todos los Usuarios (Colapsable)
+        .collapse.mb-4#verUsuarios
+          .card.card-body
+            h3.text-center Ver Usuarios
+            p.text-muted.text-center Filtra y ordena los usuarios por su rol.
+            //- Filtro por tipo de usuario
+            .row.mb-3
+              .col-md-4.offset-md-4
+                select.form-select(id="filtroRol")
+                  option(value="") -- Filtrar por Rol --
+                  option(value="1") Administrador
+                  option(value="2") Secretaria
+                  option(value="3") Paciente
+
+            //- Tabla de usuarios
+            table.table.table-bordered.table-striped.mt-3
+              thead
+                tr
+                  th Documento
+                  th Rol
+                  th Acciones
+              tbody#tablaUsuarios
+                //- Se insertarán filas dinámicamente mediante JavaScript
+
+        //- Sección Agregar Usuario (Colapsable)
+        .collapse.mb-4#agregarUsuario
+          .card.card-body
+            h3.text-center Agregar Usuario
+            form#formAgregarUsuario
+              .mb-3
+                label(for="documento") Documento
+                input.form-control#documento(type="text" name="documento" required placeholder="Ingrese el documento")
+              .mb-3
+                label(for="password") Contraseña
+                input.form-control#password(type="password" name="password" required placeholder="Ingrese la contraseña")
+              .mb-3
+                label(for="rol") Rol
+                select.form-select#rol(name="rol" required)
+                  option(value="") Seleccionar Rol
+                  option(value="1") Administrador
+                  option(value="2") Secretaria
+              button.btn.btn-success(type="submit") Agregar Usuario
+
+        // Sección Modificar o Eliminar Usuario (Colapsable)
+        .collapse.mb-4#modificarEliminarUsuario
+            .card.card-body
+                h3.text-center Modificar o Eliminar Usuario
+                p.text-muted.text-center Selecciona un usuario para modificar sus datos o eliminarlo.
+                //- Formulario de modificación
+                form#formModificarUsuario
+                  .mb-3
+                    label(for="documentoModificar") Documento
+                    input.form-control#documentoModificar(type="text" name="documento" readonly required)
+                  .mb-3
+                    label(for="rolModificar") Rol
+                    select.form-select#rolModificar(name="rol", required)
+                        option(value="1") Administrador
+                        option(value="2") Secretaria
+                        option(value="3") Paciente
+                  button.btn.btn-warning(type="button", id="btnModificarUsuario") Modificar Usuario
+
+
+    include /partials/footer.pug
+
+    script(src="/js/usuario.js")

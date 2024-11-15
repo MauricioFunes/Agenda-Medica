@@ -1,0 +1,72 @@
+doctype html
+html
+  include /partials/header.pug
+  body
+    include /partials/navbar.pug
+
+    //- Sección de Contacto Principal
+    .container.my-5
+      h1.text-center.mb-4 Contacto y dónde encontrarnos
+      p.text-center.mb-4
+        | Bienvenido a la sección de contacto de Agenda Médica. Aquí puedes encontrar cómo comunicarte con nosotros, nuestras ubicaciones, horarios y más.
+
+      //- Sección de Información de Contacto
+      .row.mb-5
+        .col-md-4.text-center
+          i.fa-solid.fa-phone.fa-2x.mb-3
+          h4 Teléfonos
+          p.mb-1 Teléfono: (123) 456-7890
+          p.mb-1 WhatsApp: (098) 765-4321
+        .col-md-4.text-center
+          i.fa-solid.fa-envelope.fa-2x.mb-3
+          h4 Correo Electrónico
+          p.mb-1 General: info@agendamedica.com
+          p.mb-1 Atención: soporte@agendamedica.com
+        .col-md-4.text-center
+          i.fa-solid.fa-location-dot.fa-2x.mb-3
+          h4 Dirección
+          p.mb-1 Avenida Falsa 123, Ciudad, Provincia
+
+      //- Sección de Mapa de Ubicación
+      .row.mb-5
+        .col-md-12
+          h4.text-center.mb-4 Nuestras Ubicaciones
+          .map-container
+            iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3169.713665117141!2d-122.0842493!3d37.4220653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fba703b9f6e0d%3A0x1234abcd56789ef!2s1600%20Amphitheatre%20Parkway%2C%20Mountain%20View%2C%20CA!5e0!3m2!1sen!2sus!4v1636551728190!5m2!1sen!2sus", width="100%", height="400", style="border:0;", allowfullscreen="", loading="lazy")
+
+      //- Sección de Quiénes Somos
+      .row.mb-5
+        .col-md-12
+          h4.text-center.mb-4 Quiénes Somos
+          p.text-center
+            | Agenda Médica es una plataforma dedicada a conectar pacientes con los mejores servicios médicos en la región. Ofrecemos una solución completa para gestionar turnos, consultar información y facilitar la comunicación entre médicos y pacientes.
+
+      //- Sección de Horarios de Atención
+      .row.mb-5
+        .col-md-6.offset-md-3
+          h4.text-center.mb-4 Horarios de Atención
+          ul.list-group.list-group-flush
+            li.list-group-item Lunes a Viernes: 8:00 AM - 7:00 PM
+            li.list-group-item Sábados: 9:00 AM - 1:00 PM
+            li.list-group-item Domingos: Cerrado
+
+      //- Sección de Formulario de Contacto
+      .row.mb-5
+        .col-md-8.offset-md-2
+          h4.text-center.mb-4 Envía una Consulta
+          form(action="/send-message" method="post")
+            .mb-3
+              label(for="name") Nombre
+              input#name.form-control(type="text" name="name" placeholder="Ingresa tu nombre" required)
+            .mb-3
+              label(for="email") Correo Electrónico
+              input#email.form-control(type="email" name="email" placeholder="Ingresa tu correo electrónico" required)
+            .mb-3
+              label(for="message") Mensaje
+              textarea#message.form-control(name="message" rows="4" placeholder="Escribe tu mensaje aquí" required)
+            .text-center
+              button.btn.btn-primary.mt-3(type="submit")
+                i.fa-solid.fa-paper-plane
+                |  Enviar Mensaje
+
+    include /partials/footer.pug

@@ -1,0 +1,98 @@
+doctype html
+html
+  include /partials/header.pug
+  body
+    include /partials/navbar.pug
+    .content.row.justify-content-center
+      .container.mt-4
+        .row.text-center
+          h1.display-4.mb-4 ¡Bienvenido #{rolUsuario} #{nombreCompleto}!
+          p.lead Selecciona alguna opcion y ante cualquier inconveniente puedes ir a la seccion de contacto para pedir ayuda a un asesor
+      
+      .card(style="width: 18rem;")
+        img.card-img-top(src="/images/pedirTurno.png", alt="pedirTurno.png")
+        .card-body
+          h5.card-title Ver disponibilidad
+          p.card-text Accede a tu calendario personal y agenda tus próximas citas médicas de manera fácil y rápida.
+          button.btn.btn-primary(type="button", data-bs-toggle="collapse", data-bs-target="#collapsePedirTurno", aria-expanded="false", aria-controls="collapsePedirTurno") Agendar un turno
+      
+      .card(style="width: 18rem;")
+        img.card-img-top(src="/images/verTurnos.jpg", alt="verTurnos.jpg")
+        .card-body
+          h5.card-title Tus turnos pedidos
+          p.card-text Aqui podras acceder y ver de una manera simple y comoda tus citas programadas para que las tengas en cuenta.
+          button.btn.btn-primary(type="button", data-bs-toggle="collapse", data-bs-target="#collapseVerTurnos", aria-expanded="false", aria-controls="collapseVerTurnos") Ver turnos programads
+      
+      .card(style="width: 18rem;")
+        img.card-img-top(src="/images/ActualizarInfo.jpg", alt="ActualizarInfo.jpg")
+        .card-body
+          h5.card-title Tu informacion
+          p.card-text Podras acceder a tu informacion y editarla en caso de que se requiera, dejando datos veridicos.
+          button.btn.btn-primary(type="button", data-bs-toggle="collapse", data-bs-target="#collapseActualizarInfo", aria-expanded="false", aria-controls="collapseActualizarInfo") Actualizar informacion
+      
+    .collapse#collapsePedirTurno
+      .card.card-body
+        form#agendarTurnoForm(action=`/pacientes/pedirr-turno/${user.documento}`, method="POST")
+          .mb-3
+            label(for="id_agenda", class="form-label") Selecciona una agenda:
+            select#id_agenda.form-control(name="id_agenda", required)
+              option(value="" disabled selected) Selecciona una agenda
+              if agendas && agendas.length
+                each agenda in agendas
+                  option(value=agenda.id_agenda) #{agenda.nombre_profesional} - #{agenda.nombre_sucursal}
+              else
+                option(value="" disabled) No hay agendas disponibles
+
+          .mb-3
+            label(for="fecha_turno", class="form-label") Fecha del turno:
+            if agendas && agendas.length > 0
+              input#fecha_turno.form-control(type="date", name="fecha_turno", required, min=agendas[0].fecha_inicio, max=agendas[0].fecha_fin)
+            else
+              input#fecha_turno.form-control(type="date", name="fecha_turno", required)
+
+
+          .mb-3
+            label(for="hora_turno", class="form-label") Hora del turno:
+            input#hora_turno.form-control(type="time", name="hora_turno", step="3600", required)
+
+          button.btn.btn-primary(type="submit") Confirmar Turno
+
+    .collapse#collapseVerTurnos
+      .card.card-body
+        h5 Tus turnos agendados:
+        table.table.table-striped
+          thead
+            tr
+              th Fecha
+              th Hora
+              th Profesional
+              th Estado
+          tbody
+            if turnos
+              each turno in turnos
+                tr
+                  td #{turno.fecha}
+                  td #{turno.hora}
+                  td #{turno.profesional}
+                  td #{turno.estado_turno}
+            else
+              tr
+                td(colspan="4") No hay turnos agendados
+
+
+    .collapse#collapseActualizarInfo
+      .card.card-body
+        form#registroPacienteForm(class="container mt-4")
+          .mb-3
+            label(for="email", class="form-label") Email:
+            input#email.form-control(type="email", name="email", placeholder="emaildeejemplo@gmail.com", required)
+
+          .mb-3
+            label(for="direccion", class="form-label") Dirección:
+            input#direccion.form-control(type="text", name="direccion", placeholder="Barrio 999 viv. Mza 999 casa 99", required)
+
+          button.btn.btn-primary(type="submit") Actualizar informacion
+
+    include /partials/footer.pug
+
+    script(src="/js/paciente.js")

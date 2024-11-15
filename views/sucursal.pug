@@ -1,0 +1,74 @@
+doctype html
+html
+  include /partials/header.pug
+  body
+    include /partials/navbar.pug
+
+    .content
+      .container.mt-5
+        .row.text-center
+          h1.display-4.mb-4 Gestión de Sucursales
+          p.lead Aquí puedes ver, agregar, modificar o eliminar sucursales.
+
+        //- Botones de control
+        .row.mb-4
+          .col-md-6.text-center
+            button.btn.btn-primary.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#verSucursales", aria-expanded="false", aria-controls="verSucursales") Ver Sucursales
+          .col-md-6.text-center
+            button.btn.btn-success.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#agregarSucursal", aria-expanded="false", aria-controls="agregarSucursal") Agregar Sucursal
+
+        //- Sección Ver Todas las Sucursales (Colapsable)
+        .collapse.mb-4#verSucursales
+          .card.card-body
+            h3.text-center Ver Sucursales
+            p.text-muted.text-center Lista de todas las sucursales disponibles.
+
+            //- Tabla de sucursales
+            table.table.table-bordered.table-striped.mt-3
+              thead
+                tr
+                  th Nombre
+                  th Dirección
+                  th Teléfono
+                  th Acciones
+              tbody#tablaSucursales
+                //- Se insertarán filas dinámicamente mediante JavaScript
+
+        //- Sección Modificar Sucursal (inicialmente oculta)
+        .collapse.mb-4#formularioModificarSucursal(style="display: none;")
+          .card.card-body
+            h3.text-center Modificar Sucursal
+            p.text-muted.text-center Actualiza la información de la sucursal seleccionada.
+            
+            form#formModificarSucursal
+              .mb-3
+                label.form-label(for="nombreSucursalModificar") Nombre de la Sucursal
+                input.form-control(type="text", id="nombreSucursalModificar")
+              .mb-3
+                label.form-label(for="direccionSucursalModificar") Dirección
+                input.form-control(type="text", id="direccionSucursalModificar")
+              .mb-3
+                label.form-label(for="telefonoSucursalModificar") Teléfono
+                input.form-control(type="text", id="telefonoSucursalModificar")
+
+              button.btn.btn-primary#guardarCambiosSucursal(type="submit") Guardar cambios
+
+        //- Sección Agregar Sucursal (Colapsable)
+        .collapse.mb-4#agregarSucursal
+          .card.card-body
+            h3.text-center Agregar Sucursal
+            form#formAgregarSucursal
+              .mb-3
+                label(for="nombreSucursal") Nombre de la Sucursal
+                input.form-control#nombreSucursal(type="text" name="nombreSucursal" required placeholder="Ingrese el nombre de la sucursal")
+              .mb-3
+                label(for="direccionSucursal") Dirección
+                input.form-control#direccionSucursal(type="text" name="direccionSucursal" required placeholder="Ingrese la dirección de la sucursal")
+              .mb-3
+                label(for="telefonoSucursal") Teléfono
+                input.form-control#telefonoSucursal(type="text" name="telefonoSucursal" required placeholder="Ingrese el teléfono de la sucursal")
+              button.btn.btn-success(type="submit") Agregar Sucursal
+
+    include /partials/footer.pug
+
+    script(src="/js/sucursal.js")

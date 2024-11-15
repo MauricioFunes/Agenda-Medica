@@ -1,0 +1,59 @@
+doctype html
+html
+  include /partials/header.pug
+  body
+    include /partials/navbar.pug
+    
+    .content.d-flex.flex-column
+      .container.my-auto.d-flex.justify-content-center.align-items-center
+        .col-md-6(style="width:60vh;")
+          .card.shadow.card-body
+            //- Sección de Login
+            #loginSection
+              h1 Ingresar
+              p Si eres un paciente debes ingresar para poder acceder a las funciones de la página...
+              form
+                .mb-3
+                  label.form-label(for="Documento") Documento
+                  input.form-control#Documento(type="text", placeholder="")
+                  .form-text Ingresar su documento sin puntos ni guiones
+                .mb-3
+                  label.form-label(for="Password") Contraseña
+                  input.form-control#Password(type="password", placeholder="Tu contraseña")
+                .form-text ¿No tienes una cuenta? 
+                  a(href="#", id="registerLink") Regístrate
+                button.btn.btn-primary.mt-2(type="submit") Ingresar
+
+            //- Sección de Registro
+            #registerSection(style="display:none")
+              h1 Registro
+              p Completa los campos para crear una nueva cuenta.
+              form
+                .mb-3
+                  label.form-label(for="nombreCompleto") Nombre Completo
+                  input.form-control#nombreCompleto(type="text", placeholder="Juan Perez", name="nombreCompleto")
+                .mb-3
+                  label.form-label(for="obraSocial") Obra social
+                  input.form-control#obraSocial(type="text", placeholder="Dosep, Dospu, etc.", name="obraSocial")
+                .mb-3
+                  label.form-label(for="telefono") Telefono
+                  input.form-control#telefono(type="number", placeholder="999-9999999", name="telefono")
+                .mb-3
+                  label.form-label(for="direccion") Direccion
+                  input.form-control#direccion(type="text", placeholder="Avenida siempre viva 666", name="direccion")
+                .mb-3
+                  label.form-label(for="documentoRegistro") Documento
+                  input.form-control#documentoRegistro(type="number", placeholder="Documento sin puntos ni guiones", name="documentoRegistro")
+                .mb-3
+                  label.form-label(for="email") Email
+                  input.form-control#email(type="email", placeholder="tuemail@ejemplo.com", name="email")
+                .mb-3
+                  label.form-label(for="passwordRegistro") Contraseña
+                  input.form-control#passwordRegistro(type="password", placeholder="Crea una contraseña", name="passwordRegistro")
+                .mb-3
+                  label.form-label(for="confirmPassword") Confirmar Contraseña
+                  input.form-control#confirmPassword(type="password", placeholder="Repite la contraseña", name="confirmPassword")
+                button.btn.btn-primary.mt-2(type="submit") Registrar
+
+
+    include /partials/footer.pug

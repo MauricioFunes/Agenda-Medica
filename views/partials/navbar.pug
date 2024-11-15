@@ -1,0 +1,53 @@
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+  .container-fluid
+    a.navbar-brand(href="/") Agenda Medica
+    button.navbar-toggler(type="button", data-bs-toggle="collapse", data-bs-target="#navbarNav", aria-controls="navbarNav", aria-expanded="false", aria-label="Toggle navigation")
+      span.navbar-toggler-icon
+    .collapse.navbar-collapse#navbarNav
+      ul.navbar-nav.me-auto
+        li.nav-item
+          a.nav-link(aria-current="page", href="/") Inicio
+
+        // Segun el rol del usuario...
+        if rolUsuario === "administrador"
+          li.nav-item
+            a.nav-link(href="/gestion-usuarios") Usuarios
+          li.nav-item
+            a.nav-link(href="/gestion-profesionales") Profesionales
+          li.nav-item
+            a.nav-link(href="/sucursal") Sucursales
+          li.nav-item
+            a.nav-link(href="/agenda") Agenda
+
+        else if rolUsuario === "secretaria"
+          li.nav-item
+            a.nav-link(href="/secretaria") Pacientes
+          li.nav-item
+            a.nav-link(href="/gestion-profesionales") Profesionales
+          li.nav-item
+            a.nav-link(href="/agenda") Agenda
+
+        else if rolUsuario === "paciente"
+          li.nav-item
+            a.nav-link(href=`/pacientes/${user.documento}`) Turnos
+          li.nav-item
+            a.nav-link(href=`/pacientes/${user.documento}`) Información
+          
+        li.nav-item
+            a.nav-link(href="/contacto") Contacto
+
+      ul.navbar-nav.ms-auto
+        //- Verificar si el usuario está autenticado para mostrar el botón adecuado
+        if userLoggedIn
+          li.nav-item
+            a.nav-link#authButton(href="/logout") 
+              i.fa-solid.fa-sign-out-alt
+              |  Salir
+        else
+          li.nav-item
+            a.nav-link#authButton(href="/login") 
+              i.fa-solid.fa-right-to-bracket
+              |  Ingresar
+
+script(src="/js/main.js")
+script(src="/js/login.js")

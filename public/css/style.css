@@ -1,0 +1,58 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+}
+
+.navbar-azul {
+    background-color: #1b5188; /* Azul oscuro */
+}
+
+/* .nav-item:hover{
+    border: 2px solid #046dd5;
+    border-radius: 5px;
+    background-color: #0080ff;
+} */
+
+.nav-item.derecha {
+    position: relative;
+    float: right;
+}
+
+/* PACIENTES */
+
+.card{
+    margin: 20px;
+}
+
+/* FOOTER */
+footer {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* footer ul li a:hover {
+    border: 2px solid #046dd5;
+    border-radius: 5px;
+    background-color: #0080ff;
+} */
+
+/* INDEX */
+
+.contentIndex{
+    flex: 1;
+    background-image: URL(/images/inicio.jpeg);
+    background-repeat: round;
+    background-size: 100%;
+}

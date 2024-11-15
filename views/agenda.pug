@@ -1,0 +1,148 @@
+doctype html
+html
+  include /partials/header.pug
+  body
+    include /partials/navbar.pug
+
+    .content
+      .container.mt-5
+        .row.text-center
+          h1.display-4.mb-4 Gestión de Agendas
+          p.lead Aquí puedes ver, agregar, modificar o eliminar agendas.
+
+        //- Botones de control
+        .row.mb-4
+          .col-md-3.text-center
+            button.btn.btn-primary.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#verAgendas", aria-expanded="false", aria-controls="verAgendas", id="btnVerAgendas") Ver Agendas
+          .col-md-3.text-center
+            button.btn.btn-success.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#agregarAgenda", aria-expanded="false", aria-controls="agregarAgenda") Agregar Agenda
+          .col-md-3.text-center
+            button.btn.btn-warning.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#modificarAgenda", aria-expanded="false", aria-controls="modificarAgenda") Modificar Agenda
+          .col-md-3.text-center
+            button.btn.btn-danger.btn-lg(type="button", data-bs-toggle="collapse", data-bs-target="#eliminarAgenda", aria-expanded="false", aria-controls="eliminarAgenda") Eliminar Agenda
+
+        //- Sección Ver Agendas (Colapsable)
+        .collapse.mb-4#verAgendas
+          .card.card-body
+            h3.text-center Ver Agendas
+            p.text-muted.text-center Filtra y visualiza las agendas de los profesionales y sus turnos.
+
+            //- Filtro por profesional y sucursal
+            .row.mb-3
+              .col-md-4.offset-md-4
+                select.form-select(id="filtroProfesional")
+                  option(value="") -- Filtrar por Profesional --
+                  if profesionales && profesionales.length > 0
+                    each profesional in profesionales
+                      option(value=profesional.id_profesional) #{profesional.nombre_completo}
+                  else
+                    option No hay profesionales disponibles
+
+            .row.mb-3
+              .col-md-4.offset-md-4
+                select.form-select(id="filtroSucursal")
+                  option(value="") -- Filtrar por Sucursal --
+                  if sucursales && sucursales.length > 0
+                    each sucursal in sucursales
+                      option(value=sucursal.id_sucursal) #{sucursal.nombre_sucursal}
+                  else
+                    option No hay sucursales disponibles
+
+            //- Tabla de agendas
+            table.table.table-bordered.table-striped.mt-3
+              thead
+                tr
+                  th Profesional
+                  th Sucursal
+                  th Clasificación
+                  th Disponibilidad
+                  th Fecha Inicio
+                  th Fecha Fin
+                  th Acciones
+              tbody#tablaAgendas
+                //- Se insertarán filas dinámicamente mediante JavaScript
+
+        //- Sección Agregar Agenda (Colapsable)
+        .collapse.mb-4#agregarAgenda
+          .card.card-body
+            h3.text-center Agregar Agenda
+            form#formAgregarAgenda
+              .mb-3
+                label(for="id_profesional") Profesional
+                select.form-select#id_profesional(name="id_profesional" required)
+                  if profesionales && profesionales.length > 0
+                    each profesional in profesionales
+                      option(value=profesional.id_profesional) #{profesional.nombre_completo}
+                  else
+                    option(disabled) No hay profesionales disponibles
+              .mb-3
+                label(for="id_sucursal") Sucursal
+                select.form-select#id_sucursal(name="id_sucursal" required)
+                  if sucursales && sucursales.length > 0
+                    each sucursal in sucursales
+                      option(value=sucursal.id_sucursal) #{sucursal.nombre_sucursal}
+                  else
+                    option(disabled) No hay sucursales disponibles
+              .mb-3
+                label(for="clasificacion") Clasificación
+                select.form-select#clasificacion(name="clasificacion" required)
+                  option(value="normal") Normal
+                  option(value="especial") Especial
+                  option(value="vip") VIP
+              .mb-3
+                label(for="disponibilidad") Disponibilidad
+                select.form-select#disponibilidad(name="disponibilidad" required)
+                  option(value="disponible") Disponible
+                  option(value="bloqueada") Bloqueada
+              .mb-3
+                label(for="motivoDisponibilidad") Motivo de Disponibilidad
+                input.form-control#motivoDisponibilidad(type="text" name="motivoDisponibilidad" placeholder="Ingrese el motivo si está bloqueada")
+              .mb-3
+                label(for="fecha_inicio") Fecha de Inicio
+                input.form-control#fecha_inicio(type="date" name="fecha_inicio" required)
+              .mb-3
+                label(for="fecha_fin") Fecha de Fin
+                input.form-control#fecha_fin(type="date" name="fecha_fin" required)
+              button.btn.btn-success(type="submit") Agregar Agenda
+
+        //- Sección Modificar Agenda (Colapsable)
+        .collapse.mb-4#modificarAgenda
+          .card.card-body
+            h3.text-center Modificar Agenda
+            form#formModificarAgenda
+              .mb-3
+                label(for="id_agendaModificar") Seleccionar Agenda
+                select.form-select#id_agendaModificar(name="id_agendaModificar" required)
+                  if agendas && agendas.length > 0
+                    each agenda in agendas
+                      option(value=agenda.id_agenda) #{agenda.clasificacion} - #{agenda.fecha_inicio} - #{agenda.fecha_fin}
+                  else
+                    option No hay agendas disponibles
+              .mb-3
+                label(for="nuevaDisponibilidad") Nueva Disponibilidad
+                select.form-select#nuevaDisponibilidad(name="nuevaDisponibilidad" required)
+                  option(value="disponible") Disponible
+                  option(value="bloqueada") Bloqueada
+              .mb-3
+                label(for="nuevoMotivoDisponibilidad") Nuevo Motivo de Disponibilidad
+                input.form-control#nuevoMotivoDisponibilidad(type="text" name="nuevoMotivoDisponibilidad" placeholder="Nuevo motivo si está bloqueada")
+              button.btn.btn-primary(type="submit") Modificar Agenda
+
+        //- Sección Eliminar Agenda (Colapsable)
+        .collapse.mb-4#eliminarAgenda
+          .card.card-body
+            h3.text-center Eliminar Agenda
+            form#formEliminarAgenda
+              .mb-3
+                label(for="id_agendaEliminar") Seleccionar Agenda
+                select.form-select#id_agendaEliminar(name="id_agendaEliminar" required)
+                  if agendas && agendas.length > 0
+                    each agenda in agendas
+                      option(value=agenda.id_agenda) #{agenda.clasificacion} - #{agenda.fecha_inicio} - #{agenda.fecha_fin}
+                  else
+                    option No hay agendas disponibles
+              button.btn.btn-danger(type="submit") Eliminar Agenda
+
+    include /partials/footer.pug
+
+    script(src="/js/agenda.js")
